@@ -5,8 +5,8 @@
 // @author       BaHeK
 // @include      /^https?:\/\/mail\.yandex\.ru/
 // @grant        none
-// @downloadUrl  https://raw.githubusercontent.com/BaHeK1994/remove-ads-yandex-mail/master/builds/script.user.js
-// @updateUrl    https://raw.githubusercontent.com/BaHeK1994/remove-ads-yandex-mail/master/builds/script.user.js
+// @downloadUrl  https://github.com/BaHeK1994/remove-ads-yandex-mail/raw/main/script.user.js
+// @updateUrl    https://github.com/BaHeK1994/remove-ads-yandex-mail/raw/main/script.user.js
 // ==/UserScript==
 
 (function() {
