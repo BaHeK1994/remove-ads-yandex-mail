@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Remove ads yandex mail
-// @version      0.1
+// @version      0.2
 // @description  Удаляет рекламу из почты yandex
 // @author       BaHeK
 // @include      /^https?:\/\/mail\.yandex\.ru/
@@ -42,5 +42,8 @@
     setTimeout(function() {
         // Включаем листенер, чтобы удалять рекламу сразу после ее появления
         document.body.addEventListener('DOMSubtreeModified', remove, false);
+
+        // Удаляем рекламу, не дожидаясь изменений на странице
+        remove();
     }, 3000);
 })();
