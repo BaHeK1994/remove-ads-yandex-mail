@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Remove ads yandex mail
-// @version      0.2
+// @version      0.3
 // @description  Удаляет рекламу из почты yandex
 // @author       BaHeK
 // @include      /^https?:\/\/mail\.yandex\.ru/
@@ -30,20 +30,17 @@
                 }
                 // Отключаем листенер изменения DOM, иначе будет рекурсия
                 document.body.removeEventListener('DOMSubtreeModified', remove, false);
-                // Удаляем элемент рекламы
-                e.parentNode.removeChild(e);
+                // Скрываем элемент рекламы
+                e.style.display = 'none';
                 // Включаем листенер обратно, т.к. реклама может появиться после обновления списка писем
                 document.body.addEventListener('DOMSubtreeModified', remove, false);
             });
         }
     };
 
-    // Если запустить раньше, то будет ошибка: https://img-host.su/JQrL.png
-    setTimeout(function() {
-        // Включаем листенер, чтобы удалять рекламу сразу после ее появления
-        document.body.addEventListener('DOMSubtreeModified', remove, false);
+    // Включаем листенер, чтобы удалять рекламу сразу после ее появления
+    document.body.addEventListener('DOMSubtreeModified', remove, false);
 
-        // Удаляем рекламу, не дожидаясь изменений на странице
-        remove();
-    }, 3000);
+    // Моментально скрываем рекламу, не дожидаясь изменений на странице
+    remove();
 })();
