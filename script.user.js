@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Remove ads yandex mail
-// @version      0.3
+// @version      0.4
 // @description  Удаляет рекламу из почты yandex
 // @author       BaHeK
 // @include      /^https?:\/\/mail\.yandex\.ru/
@@ -25,7 +25,7 @@
                     return;
                 }
                 // Нужные элементы, их не надо удалять
-                if(['notifications', 'labels', 'footer'].indexOf(matches[1]) !== -1) {
+                if(['notifications', 'labels', 'footer', 'app'].indexOf(matches[1]) !== -1) {
                     return;
                 }
                 // Отключаем листенер изменения DOM, иначе будет рекурсия
