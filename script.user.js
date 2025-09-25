@@ -27,6 +27,12 @@
     };
 
     let remove = () => {
+        // Ищем div с class="message-list-banner-portal"
+        let a = document.querySelectorAll('[class="message-list-banner-portal"]');
+        let banner = a.nextSibling;
+        // Скрываем элемент рекламы
+        banner.style.display = 'none';
+        
         // Ищем элементы с атрибутом data-key="view=*"
         let elements = document.querySelectorAll('[data-key^="view="]');
         if (elements.length) {
