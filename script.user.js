@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Remove ads yandex mail
-// @version      0.5
+// @version      0.6
 // @description  Удаляет рекламу из почты yandex
 // @author       BaHeK
 // @match        http*://mail.yandex.ru/*
@@ -27,40 +27,40 @@
     };
 
     let remove = () => {
+        // Ищем div с class="message-list-banner-portal"
+        document.querySelectorAll('[class="message-list-banner-portal"]').forEach((e) => {
+            let banner = e.nextSibling;
+
+            // Уже скрыто
+            if (banner.style.display === "none") {
+                return;
+            }
+
+            // Отключаем листенер изменения DOM, иначе будет рекурсия
+            if (observer !== null) {
+                observer.disconnect();
+                observer = null;
+            }
+
+            // Скрываем элемент рекламы
+            banner.style.display = 'none';
+        });
+
         // Ищем элементы с атрибутом data-key="view=*"
-        let elements = document.querySelectorAll('[data-key^="view="]');
-        if (elements.length) {
-            elements.forEach((e) => {
-                // Получаем dataset key
-                let key = e.dataset['key'];
-                // У элементов с рекламой после view= идут только английские буквы
-                let matches = key.match(/^view=([a-z]+)$/);
-                if (matches == null) {
-                    return;
-                }
-                // Нужные элементы, их не надо удалять
-                if (['notifications', 'labels', 'footer', 'app'].indexOf(matches[1]) !== -1) {
-                    return;
-                }
+        // TODO: проверить актуально ли это
+        document.querySelectorAll('[data-key^="view="]').forEach((e) => {
+            // Получаем dataset key
+            let key = e.dataset['key'];
+            // У элементов с рекламой после view= идут только английские буквы
+            let matches = key.match(/^view=([a-z]+)$/);
+            if (matches == null) {
+                return;
+            }
+            // Нужные элементы, их не надо удалять
+            if (['notifications', 'labels', 'footer', 'app'].indexOf(matches[1]) !== -1) {
+                return;
+            }
 
-                // Уже скрыто
-                if (e.style.display === "none") {
-                    return;
-                }
-
-                // Отключаем листенер изменения DOM, иначе будет рекурсия
-                if (observer !== null) {
-                    observer.disconnect();
-                    observer = null;
-                }
-
-                // Скрываем элемент рекламы
-                e.style.display = 'none';
-            });
-        }
-
-        // Удаляем кнопку отключения рекламы
-        document.querySelectorAll('a[class*="DisableAdsButton"]').forEach((e) => {
             // Уже скрыто
             if (e.style.display === "none") {
                 return;
@@ -72,8 +72,27 @@
                 observer = null;
             }
 
-            // Скрываем
+            // Скрываем элемент рекламы
             e.style.display = 'none';
+        });
+
+        // Скрываем родительский элемент .BannersBlock
+        document.querySelectorAll('.BannersBlock').forEach((e) => {
+            let parent = e.parentElement;
+
+            // Уже скрыто
+            if (parent.style.display === "none") {
+                return;
+            }
+
+            // Отключаем листенер изменения DOM, иначе будет рекурсия
+            if (observer !== null) {
+                observer.disconnect();
+                observer = null;
+            }
+
+            // Скрываем
+            parent.style.display = 'none';
         });
 
         // Запускаем observer
