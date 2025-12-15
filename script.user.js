@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Remove ads yandex mail
-// @version      0.6
+// @version      0.7
 // @description  Удаляет рекламу из почты yandex
 // @author       BaHeK
 // @match        http*://mail.yandex.ru/*
@@ -27,9 +27,9 @@
     };
 
     let remove = () => {
-        // Ищем div с class="message-list-banner-portal"
-        document.querySelectorAll('[class="message-list-banner-portal"]').forEach((e) => {
-            let banner = e.nextSibling;
+        // Ищем div с class="DirectLine"
+        document.querySelectorAll('div[class="DirectLine"]').forEach((e) => {
+            let banner = e;
 
             // Уже скрыто
             if (banner.style.display === "none") {
@@ -44,36 +44,6 @@
 
             // Скрываем элемент рекламы
             banner.style.display = 'none';
-        });
-
-        // Ищем элементы с атрибутом data-key="view=*"
-        // TODO: проверить актуально ли это
-        document.querySelectorAll('[data-key^="view="]').forEach((e) => {
-            // Получаем dataset key
-            let key = e.dataset['key'];
-            // У элементов с рекламой после view= идут только английские буквы
-            let matches = key.match(/^view=([a-z]+)$/);
-            if (matches == null) {
-                return;
-            }
-            // Нужные элементы, их не надо удалять
-            if (['notifications', 'labels', 'footer', 'app'].indexOf(matches[1]) !== -1) {
-                return;
-            }
-
-            // Уже скрыто
-            if (e.style.display === "none") {
-                return;
-            }
-
-            // Отключаем листенер изменения DOM, иначе будет рекурсия
-            if (observer !== null) {
-                observer.disconnect();
-                observer = null;
-            }
-
-            // Скрываем элемент рекламы
-            e.style.display = 'none';
         });
 
         // Скрываем родительский элемент .BannersBlock
